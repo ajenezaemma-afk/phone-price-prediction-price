@@ -4,7 +4,7 @@ import pandas as pd
 import streamlit as st
 
 # Load the trained model
-loaded_model = pickle.load(open('C:/Users/HOME-PC/Desktop/phone prediction/phone_sales_data.sav', 'rb'))
+loaded_model = pickle.load(open('phone_sales_data.sav', 'rb'))
 
 # Function to predict phone price
 def phone_price_prediction(screen_size, ram, storage, battery_capacity, camera_quality):
@@ -37,3 +37,4 @@ def main():
 
 if _name_ == '_main_':
     main()
+
