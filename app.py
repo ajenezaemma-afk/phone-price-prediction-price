@@ -1,19 +1,10 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Oct 15 20:54:05 2025
-
-@author: Benjamin
-"""
 import numpy as np
 import pickle
 import pandas as pd
 import streamlit as st
-import os
 
 # Load the trained model
-loaded_model = pickle.load(open('phone_sales_data.sav', 'rb'))
-
-
+loaded_model = pickle.load(open('C:/Users/HOME-PC/Desktop/phone prediction/phone_sales_data.sav', 'rb'))
 
 # Function to predict phone price
 def phone_price_prediction(screen_size, ram, storage, battery_capacity, camera_quality):
@@ -30,30 +21,19 @@ def phone_price_prediction(screen_size, ram, storage, battery_capacity, camera_q
 # Main Streamlit app
 def main():
     st.title("📱 Phone Price Prediction App")
+    
 
-    # Input fields
-    screen_size = st.text_input('Screen Size (inches) (e.g., 6.2)')
-    ram = st.text_input('RAM (GB) (e.g., 4)')
-    storage = st.text_input('Storage (GB) (e.g., 64)')
-    battery_capacity = st.text_input('Battery Capacity (mAh) (e.g., 4000)')
-    camera_quality = st.text_input('Camera Quality (MP) (e.g., 48)')
+    # Number input fields (safe and validated automatically)
+    screen_size = st.number_input('Screen Size (inches)', min_value=3.0, max_value=10.0, value=6.2, step=0.1)
+    ram = st.number_input('RAM (GB)', min_value=1, max_value=64, value=4, step=1)
+    storage = st.number_input('Storage (GB)', min_value=8, max_value=1024, value=64, step=8)
+    battery_capacity = st.number_input('Battery Capacity (mAh)', min_value=500, max_value=10000, value=4000, step=100)
+    camera_quality = st.number_input('Camera Quality (MP)', min_value=1, max_value=200, value=48, step=1)
 
     if st.button('Predict Price'):
-        try:
-            # Convert inputs
-            screen_size = float(screen_size)
-            ram = int(ram)
-            storage = int(storage)
-            battery_capacity = int(battery_capacity)
-            camera_quality = int(camera_quality)
+        # Predict directly (no try-except needed)
+        price = phone_price_prediction(screen_size, ram, storage, battery_capacity, camera_quality)
+        st.success(f"💰 The predicted price for the phone is: *${price:,.2f}*")
 
-            # Prediction
-            price = phone_price_prediction(screen_size, ram, storage, battery_capacity, camera_quality)
-            st.success(f'The predicted price for the phone is: ${price:.2f}')
-        except ValueError:
-            st.error("Please enter valid numeric values for all inputs.")
-
-if __name__ == '__main__':
+if _name_ == '_main_':
     main()
-
-
